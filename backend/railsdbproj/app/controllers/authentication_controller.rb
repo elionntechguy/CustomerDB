@@ -1,0 +1,21 @@
+class AuthenticationController < ApplicationController
+  skip_before_action :authenticate, only: [:login]
+
+  def login
+    @user = User.find_by(email: params[:user][:email])
+    if @user
+      if @user.authenticate(params[:user][:password])
+        payload = { user_id: @user.id }
+        token = create_token(payload)
+        render json:
+        {
+          token: token
+        }
+      else
+        render json: { message: "Authentication Failed" }
+      end
+    else
+      render json: { message: "Could not find user" }
+    end
+  end
+end
