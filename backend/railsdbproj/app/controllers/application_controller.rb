@@ -2,15 +2,23 @@ class ApplicationController < ActionController::API
   before_action :authenticate
 
   def authenticate
+    decoded_token
+    current_user
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: "User doesn't exist" }, status: :unauthorized
+  rescue JWT::DecodeError => e
+    render json: { error: "Invalid or missing token" }, status: :unauthorized
+  end
+
+  def decoded_token
     token = auth_header.split(' ').last if auth_header
-      begin
-        decoded_token = JWT.decode(token, 'SECRET_KEY')
-        payload = decoded_token.first["user_id"]
-        @user = User.find(payload)
-      rescue ActiveRecord::RecordNotFound => e
-        render json: { error: "User doesn't exist" }, status: :unauthorized
-      rescue JWT::DecodeError => e
-        render json: { error: "Invalid or missing token" }, status: :unauthorized
+    JWT.decode(token, 'SECRET_KEY')
+  end
+
+  def current_user
+    if decoded_token
+      payload = decoded_token.first["user_id"]
+      @user = User.find(payload)
     end
   end
 
