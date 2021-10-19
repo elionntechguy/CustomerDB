@@ -4,6 +4,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  RESET_PASSWORD,
   SET_MESSAGE,
 } from "./types";
 
@@ -77,4 +78,22 @@ export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
+};
+
+export const resetPassword = (password) => async (dispatch) => {
+  const data = await AuthService.resetPassword(password);
+  if(data.message == "Password successfully changed!") {
+    dispatch({
+      type: RESET_PASSWORD,
+      payload: data,
+    });
+    localStorage.removeItem("user");
+    return Promise.resolve();
+  } else {
+    dispatch({
+      type: SET_MESSAGE,
+      payload: data,
+    });
+    return Promise.reject();
+  }
 };

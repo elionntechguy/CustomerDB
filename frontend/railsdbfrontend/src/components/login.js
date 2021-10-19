@@ -66,11 +66,11 @@ export const LogIn = (props) => {
         </Button>
         <br />
         {message && (
-              <div className="form-group">
-                <div className="alert alert-danger" role="alert">
-                  {message}
-                </div>
-              </div>
+          <div className="form-group">
+            <div className="alert alert-danger" role="alert">
+              {message}
+            </div>
+          </div>
         )}
       </Form>
     </div>
@@ -79,7 +79,7 @@ export const LogIn = (props) => {
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
-  message: JSON.stringify(state.message.message.message),
+  message: state.message.message.message,
 });
 
 export default connect(mapStateToProps)(LogIn);
