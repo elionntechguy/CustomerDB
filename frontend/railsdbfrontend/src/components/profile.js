@@ -1,21 +1,44 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Jumbotron, Container } from "react-bootstrap";
+import { Jumbotron, Container, Form, Button, Col, Row } from "react-bootstrap";
+
+import { connect } from "react-redux";
 
 import UserService from "../services/user-service";
+import { resetPassword } from "../actions/auth";
 
-export const Profile = () => {
+export const Profile = (props) => {
   const [content, setContent] = useState([]);
+  const [password, setPassword] = useState("");
 
-  UserService.getProfile().then(
-    (res) => {
-      setContent([res.data]);
-    },
-    (err) => {
-      setContent(err.message);
-    }
-  );
+  useEffect(() => {
+    UserService.getProfile().then(
+      (res) => {
+        setContent([res.data]);
+      },
+      (err) => {
+        setContent(err.message);
+      }
+    );
+  }, []);
+
+  const { dispatch, history } = props;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const password = e.target.password.value;
+    dispatch(resetPassword(password)).then(() => {
+      history.push("/");
+      window.location.reload();
+    });
+  };
+
+  const validateForm = () => {
+    return password.length > 0;
+  };
+
+  const { message } = props;
 
   return (
     <Container>
@@ -30,10 +53,58 @@ export const Profile = () => {
               <hr />
             </Container>
           </Jumbotron>
+
+          <div className="profile-main">
+            <Row>
+              <Col md={6}>
+                <div className="reset-password">
+                  <h4>Reset password</h4>
+                  <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId="password">
+                      <Form.Label>New Password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </Form.Group>
+
+                    <Button
+                      variant="secondary"
+                      block
+                      size="lg"
+                      type="submit"
+                      disabled={!validateForm()}
+                    >
+                      Submit
+                    </Button>
+                  </Form>
+                  <br />
+                  {message && (
+                    <div className="form-group">
+                      <div className="alert alert-danger" role="alert">
+                        {message}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Col>
+              <Col md={6}>
+                <div className="user-info">
+                  <h4>{i.username}</h4>
+                  <h5>{i.email}</h5>
+                </div>
+              </Col>
+            </Row>
+          </div>
         </>
       ))}
     </Container>
   );
 };
 
-export default Profile;
+const mapStateToProps = (state) => ({
+  message: state.message.message.message,
+});
+
+export default connect(mapStateToProps)(Profile);
