@@ -4,8 +4,8 @@ class CreateCustomers < ActiveRecord::Migration[6.1]
       t.string :username
       t.string :email
       t.string :phonenumber
-      t.text :issues, array: true, index: {unique: true}, default: []
-      t.integer :assignedusersid, array: true, index: {unique: true}, default: []
+      t.text :issues, array: true, index: { unique: true }, default: []
+      t.integer :assignedusersid, array: true, index: { unique: true }, default: []
 
       t.timestamps
     end
