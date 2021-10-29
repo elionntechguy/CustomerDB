@@ -8,3 +8,31 @@
     max-width: 320px;
   }
 }
+
+.newcustomerbutton {
+  float: right !important;
+}
+
+.issue_status {
+  padding: 5px;
+  border-radius: 0.25rem;
+}
+
+.opened {
+  background-color: orange;
+}
+
+.inprogress {
+  background-color: plum;
+}
+
+.closed {
+  background-color: lightseagreen;
+}
+
+@media all and (max-width: 767px) {
+  .newcustomerbutton {
+    float: none !important;
+    margin-bottom: 15px;
+  }
+}

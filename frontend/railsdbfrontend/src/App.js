@@ -2,9 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { Router, Switch, Route, Link, Redirect } from "react-router-dom";
 
-import LogIn from "./components/login.js";
+import LogIn from "./components/login";
 import { logout } from "./actions/auth";
-import Profile from "./components/profile.js";
+import Profile from "./components/profile";
+import Dashboard from "./components/dashboard";
+import NewCustomer from "./components/new-customer";
 
 import { history } from "./helpers/history";
 
@@ -13,12 +15,8 @@ function App(props) {
   const { user, logout } = props;
 
   const PrivateRoute = (props) => {
-    return user ? (
-      <Route {...props} />
-    ) : (
-      <Redirect to="/" />
-    )
-  }
+    return user ? <Route {...props} /> : <Redirect to="/" />;
+  };
 
   return (
     <Router history={history}>
@@ -28,12 +26,6 @@ function App(props) {
             railsdbproj
           </Link>
           <div className="navbar-nav mr-auto">
-            {/* <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li> */}
-
             {user && (
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
@@ -51,10 +43,12 @@ function App(props) {
           </div>
         </nav>
 
-        <div className="container mt-3">
+        <div className="container-fluid mt-3">
           <Switch>
             <Route exact path="/" component={LogIn} />
             <PrivateRoute exact path="/profile" component={Profile} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/new_customer" component={NewCustomer} />
           </Switch>
         </div>
       </div>

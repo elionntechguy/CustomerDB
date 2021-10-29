@@ -15,7 +15,9 @@ export const Profile = (props) => {
   useEffect(() => {
     UserService.getProfile().then(
       (res) => {
+        console.log([res.data]);
         setContent([res.data]);
+        console.log(content);
       },
       (err) => {
         setContent(err.message);

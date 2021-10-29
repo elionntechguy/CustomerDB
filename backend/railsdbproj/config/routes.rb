@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   post 'new_customer', to: 'customers#new_customer'
   post 'update_customer/:id', to: 'customers#update_customer'
   post 'delete_customer/:id', to: 'customers#delete_customer'
+  get 'get_assigned_user', to: 'customers#get_assigned_user'
 end
