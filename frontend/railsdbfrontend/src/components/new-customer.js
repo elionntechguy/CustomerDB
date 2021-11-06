@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 
-import { Container, Form, Button, Col, Row } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 
 import { connect } from "react-redux";
 
+import "../App.css";
 import { newCustomer } from "../actions/customer";
 
 export const NewCustomer = (props) => {
@@ -44,77 +45,72 @@ export const NewCustomer = (props) => {
   const { message } = props;
 
   return (
-    <Container>
-      <div className="newcustomer-main">
-        <Row>
-          <Col md={6}>
-            <div className="new-customer">
-              <h4>New Customer</h4>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group size="lg" controlId="name">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    autoFocus
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group size="lg" controlId="email">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group size="lg" controlId="phonenumber">
-                  <Form.Label>Phone Number</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={phonenumber}
-                    onChange={(e) => setPhonenumber(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group size="lg" controlId="issues">
-                  <Form.Label>Issues</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={issues}
-                    onChange={(e) => setIssues(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group size="lg" controlId="issuedescription">
-                  <Form.Label>Issue Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    value={issuedescription}
-                    onChange={(e) => setIssuedescription(e.target.value)}
-                    rows={3}
-                  />
-                </Form.Group>
+    <Container fluid>
+      <div className="new-customer">
+        <h4>New Customer</h4>
+        <hr />
+        <Form onSubmit={handleSubmit}>
+          <Form.Group size="lg" controlId="name">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              autoFocus
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group size="lg" controlId="email">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group size="lg" controlId="phonenumber">
+            <Form.Label>Phone Number</Form.Label>
+            <Form.Control
+              type="text"
+              value={phonenumber}
+              onChange={(e) => setPhonenumber(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group size="lg" controlId="issues">
+            <Form.Label>Issues</Form.Label>
+            <Form.Control
+              type="text"
+              value={issues}
+              onChange={(e) => setIssues(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group size="lg" controlId="issuedescription">
+            <Form.Label>Issue Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              value={issuedescription}
+              onChange={(e) => setIssuedescription(e.target.value)}
+              rows={3}
+            />
+          </Form.Group>
 
-                <Button
-                  variant="secondary"
-                  block
-                  size="lg"
-                  type="submit"
-                  disabled={!validateForm()}
-                >
-                  Submit
-                </Button>
-              </Form>
-              <br />
-              {message && (
-                <div className="form-group">
-                  <div className="alert alert-danger" role="alert">
-                    {message}
-                  </div>
-                </div>
-              )}
+          <Button
+            variant="secondary"
+            block
+            size="lg"
+            type="submit"
+            disabled={!validateForm()}
+          >
+            Submit
+          </Button>
+        </Form>
+        <br />
+        {message && (
+          <div className="form-group">
+            <div className="alert alert-danger" role="alert">
+              {message}
             </div>
-          </Col>
-        </Row>
+          </div>
+        )}
       </div>
     </Container>
   );

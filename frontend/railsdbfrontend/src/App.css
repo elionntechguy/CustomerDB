@@ -7,6 +7,12 @@
     margin: 0 auto;
     max-width: 320px;
   }
+
+  .new-customer {
+    padding: 20px 0;
+    margin: 0 auto;
+    max-width: 500px;
+  }
 }
 
 .newcustomerbutton {

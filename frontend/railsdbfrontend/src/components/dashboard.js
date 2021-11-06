@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import {
-  Container,
   Table,
   Row,
   Col,
@@ -15,6 +14,8 @@ import {
 import { Pencil, Check } from "react-bootstrap-icons";
 
 import CustomerService from "../services/customer-service";
+
+import "../App.css";
 
 import { deleteCustomer } from "../actions/customer";
 import { editCustomer } from "../actions/customer";
@@ -62,14 +63,6 @@ export const Dashboard = (props) => {
   };
 
   const sendEdit = (key) => {
-    console.log(
-      key,
-      nameChange,
-      emailChange,
-      phoneNumberChange,
-      issueChange,
-      issueDescriptionChange
-    );
     props.sendEdited(
       key,
       nameChange,
@@ -82,24 +75,31 @@ export const Dashboard = (props) => {
   };
 
   return (
-    <Container fluid>
-      <>
-        <div className="dashboardheader">
-          <Row>
-            <Col md={6}>
-              <h2 className="dashboardheaderh2">Customers</h2>
-            </Col>
-            <Col md={6}>
-              <Button
-                className="newcustomerbutton"
-                onClick={() => history.push("/new_customer")}
-                variant="success"
-              >
-                New Customer
-              </Button>
-            </Col>
-          </Row>
+    <>
+      <div className="dashboardheader">
+        <Row>
+          <Col md={6}>
+            <h2 className="dashboardheaderh2">Customers</h2>
+          </Col>
+          <Col md={6}>
+            <Button
+              className="newcustomerbutton"
+              onClick={() => history.push("/new_customer")}
+              variant="success"
+            >
+              New Customer
+            </Button>
+          </Col>
+        </Row>
+        <hr />
+      </div>
+      {content.length === 0 ? (
+        <div className="text-center">
+          <div className="alert alert-secondary" role="alert">
+            No customer found at the moment
+          </div>
         </div>
+      ) : (
         <div className="table-responsive">
           <Table striped bordered hover>
             <thead>
@@ -272,8 +272,8 @@ export const Dashboard = (props) => {
             </tbody>
           </Table>
         </div>
-      </>
-    </Container>
+      )}
+    </>
   );
 };
 

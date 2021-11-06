@@ -21,13 +21,29 @@ function App(props) {
   return (
     <Router history={history}>
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
-            railsdbproj
+            Customer Database
           </Link>
-          <div className="navbar-nav mr-auto">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
             {user && (
-              <div className="navbar-nav ml-auto">
+              <div className="navbar-nav">
+                <li className="nav-item">
+                  <Link to={"/dashboard"} className="nav-link">
+                    Dashboard
+                  </Link>
+                </li>
                 <li className="nav-item">
                   <Link to={"/profile"} className="nav-link">
                     Profile

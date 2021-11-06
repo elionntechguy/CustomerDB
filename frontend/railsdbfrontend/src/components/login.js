@@ -32,7 +32,7 @@ export const LogIn = (props) => {
   const { isLoggedIn, message } = props;
 
   if (isLoggedIn) {
-    return <Redirect to="/profile" />;
+    return <Redirect to="/dashboard" />;
   }
 
   return (
