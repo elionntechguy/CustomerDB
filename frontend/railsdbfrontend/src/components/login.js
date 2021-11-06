@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
@@ -13,7 +12,6 @@ import { login } from "../actions/auth";
 export const LogIn = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const { dispatch, history } = props;
 
@@ -21,14 +19,10 @@ export const LogIn = (props) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    dispatch(login(email, password))
-      .then(() => {
-        history.push("/profile");
-        window.location.reload();
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    dispatch(login(email, password)).then(() => {
+      history.push("/profile");
+      window.location.reload();
+    });
   };
 
   const validateForm = () => {

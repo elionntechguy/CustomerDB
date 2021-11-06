@@ -10,6 +10,16 @@ import {
 
 import AuthService from "../services/auth-service";
 
+/**
+ * Register action that dispatches REGISTER_SUCCESS 
+ * if successfully registered
+ * 
+ * @param {string} username User name
+ * @param {string} email User email
+ * @param {string} password User password
+ * @param {string} password_confirmation Confirm user password
+ * @returns 
+ */
 export const register =
   (username, email, password, password_confirmation) => (dispatch) => {
     return AuthService.register(
@@ -47,6 +57,14 @@ export const register =
     );
   };
 
+/**
+ * Login action that dispatches LOGIN_SUCCESS
+ * if logged in successfully
+ * 
+ * @param {string} email User email
+ * @param {string} password User password
+ * @returns 
+ */
 export const login = (email, password) => async (dispatch) => {
   const data = await AuthService.login(email, password);
   if ("token" in data) {
@@ -67,11 +85,16 @@ export const login = (email, password) => async (dispatch) => {
       type: SET_MESSAGE,
       payload: message,
     });
-    
+
     return Promise.reject();
   }
 };
 
+/**
+ * Logout action that dispatches LOGOUT
+ * 
+ * @returns 
+ */
 export const logout = () => (dispatch) => {
   AuthService.logout();
 
@@ -80,9 +103,16 @@ export const logout = () => (dispatch) => {
   });
 };
 
+/**
+ * resetPassword action that dispatches RESET_PASSWORD
+ * if new password not the same as current password
+ * 
+ * @param {string} password User password
+ * @returns 
+ */
 export const resetPassword = (password) => async (dispatch) => {
   const data = await AuthService.resetPassword(password);
-  if(data.message == "Password successfully changed!") {
+  if (data.message == "Password successfully changed!") {
     dispatch({
       type: RESET_PASSWORD,
       payload: data,

@@ -4,6 +4,11 @@ import authHeader from './auth-header';
 const API_URL = 'http://localhost:3000/';
 
 class UserService {
+  /**
+   * getProfile method
+   * 
+   * @returns 
+   */
   getProfile() {
     return axios.get(API_URL + 'profile', { headers: authHeader() });
   }
