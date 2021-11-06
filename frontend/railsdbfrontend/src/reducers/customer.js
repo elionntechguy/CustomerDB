@@ -1,4 +1,4 @@
-import { NEW_CUSTOMER } from "../actions/types";
+import { NEW_CUSTOMER, DELETE_CUSTOMER } from "../actions/types";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -15,6 +15,11 @@ export default function (state = initialState, action) {
         ...state,
         isLoggedIn: false,
       };
+    case DELETE_CUSTOMER:
+      return {
+        ...state,
+        isLoggedIn: false,
+      }
     default:
       return state;
   }

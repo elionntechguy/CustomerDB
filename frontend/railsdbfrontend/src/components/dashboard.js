@@ -1,15 +1,37 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 
-import { Container, Table, Row, Col, Button } from "react-bootstrap";
+import { connect } from "react-redux";
 
-// import { connect } from "react-redux";
+import {
+  Container,
+  Table,
+  Row,
+  Col,
+  Button,
+  CloseButton,
+} from "react-bootstrap";
+import { Pencil, Check } from "react-bootstrap-icons";
 
 import CustomerService from "../services/customer-service";
+
+import { deleteCustomer } from "../actions/customer";
+import { editCustomer } from "../actions/customer";
 
 export const Dashboard = (props) => {
   const [content, setContent] = useState([]);
   const [assigneduser, setAssigneduser] = useState([]);
+
+  const [edit, setEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
+
+  const [nameChange, setNameChange] = useState("");
+  const [emailChange, setEmailChange] = useState("");
+  const [phoneNumberChange, setPhoneNumberChange] = useState("");
+  const [issueStatusChange, setIssueStatusChange] = useState("");
+  const [issueChange, setIssueChange] = useState("");
+  const [issueDescriptionChange, setIssueDescriptionChange] = useState("");
 
   useEffect(() => {
     CustomerService.dashboard().then(
@@ -26,23 +48,41 @@ export const Dashboard = (props) => {
 
   const { history } = props;
 
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     const password = e.target.password.value;
-  //     dispatch(resetPassword(password)).then(() => {
-  //       history.push("/");
-  //       window.location.reload();
-  //     });
-  //   };
+  const handleEdit = (key) => {
+    console.log(content.find((zv) => zv.id == key));
+    let i = content.find((zv) => zv.id == key);
+    setNameChange(i.name);
+    setEmailChange(i.email);
+    setPhoneNumberChange(i.phonenumber);
+    setIssueStatusChange(i.issue_status);
+    setIssueChange(i.issues);
+    setIssueDescriptionChange(i.issue_description);
+    setEdit(!edit);
+    setEditId(key);
+  };
 
-  //   const validateForm = () => {
-  //     return password.length > 0;
-  //   };
-
-  //   const { message } = props;
+  const sendEdit = (key) => {
+    console.log(
+      key,
+      nameChange,
+      emailChange,
+      phoneNumberChange,
+      issueChange,
+      issueDescriptionChange
+    );
+    props.sendEdited(
+      key,
+      nameChange,
+      emailChange,
+      phoneNumberChange,
+      issueStatusChange,
+      issueChange,
+      issueDescriptionChange
+    );
+  };
 
   return (
-    <Container>
+    <Container fluid>
       <>
         <div className="dashboardheader">
           <Row>
@@ -69,22 +109,21 @@ export const Dashboard = (props) => {
                 <th>Email</th>
                 <th>Phone Number</th>
                 <th>Issue Status</th>
+                <th>Issue</th>
                 <th>Issue Description</th>
                 <th>Assigned Users</th>
+                {edit ? <th> Finish Editing </th> : <th> Edit </th>}
+                {edit ? <th> Stop Editing </th> : <th> Delete </th>}
               </tr>
             </thead>
             <tbody>
               {content.map((i) => {
-                // const assignedUserFilter = assigneduser.filter(
-                //   ({ customers_id }) => customers_id == i.id
-                // );
-
                 const assignedUserFilter = () => {
                   return (
                     assigneduser.find((z) => {
-                      for (const element of z.customers_id) {
-                        return element == i.id;
-                      }
+                      return (
+                        z.customers_id.filter((zv) => zv == i.id).length > 0
+                      );
                     }) || []
                   );
                 };
@@ -92,26 +131,141 @@ export const Dashboard = (props) => {
                 return (
                   <tr key={i.id}>
                     <td>{i.id}</td>
-                    <td>{i.name}</td>
-                    <td>{i.email}</td>
-                    <td>{i.phonenumber}</td>
                     <td>
-                      {i.issue_status === "Opened" ? (
-                        <span className="issue_status opened">
-                          {i.issue_status}
-                        </span>
-                      ) : i.issue_status === "In Progress" ? (
-                        <span className="issue_status inprogress">
-                          {i.issue_status}
-                        </span>
+                      {edit && editId === i.id ? (
+                        <input
+                          type="text"
+                          name="title"
+                          defaultValue={nameChange}
+                          onChange={(e) => setNameChange(e.target.value)}
+                        />
                       ) : (
-                        <span className="issue_status closed">
-                          {i.issue_status}
-                        </span>
+                        <>{i.name}</>
                       )}
                     </td>
-                    <td>{i.issue_description}</td>
+                    <td>
+                      {edit && editId === i.id ? (
+                        <input
+                          type="text"
+                          name="title"
+                          defaultValue={emailChange}
+                          onChange={(e) => setEmailChange(e.target.value)}
+                        />
+                      ) : (
+                        <>{i.email}</>
+                      )}
+                    </td>
+                    <td>
+                      {edit && editId === i.id ? (
+                        <input
+                          type="text"
+                          name="title"
+                          defaultValue={phoneNumberChange}
+                          onChange={(e) => setPhoneNumberChange(e.target.value)}
+                        />
+                      ) : (
+                        <>{i.phonenumber}</>
+                      )}
+                    </td>
+                    <td>
+                      {edit && editId === i.id ? (
+                        <select
+                          name="issueStatusChangeSelect"
+                          onChange={(e) => setIssueStatusChange(e.target.value)}
+                          value={issueStatusChange}
+                        >
+                          <option>Opened</option>
+                          <option>In Progress</option>
+                          <option>Closed</option>
+                        </select>
+                      ) : (
+                        <>
+                          {i.issue_status === "Opened" ? (
+                            <span className="issue_status opened">
+                              {i.issue_status}
+                            </span>
+                          ) : i.issue_status === "In Progress" ? (
+                            <span className="issue_status inprogress">
+                              {i.issue_status}
+                            </span>
+                          ) : (
+                            <span className="issue_status closed">
+                              {i.issue_status}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </td>
+                    <td>
+                      {edit && editId === i.id ? (
+                        <input
+                          type="text"
+                          name="title"
+                          defaultValue={issueChange}
+                          onChange={(e) => setIssueChange(e.target.value)}
+                        />
+                      ) : (
+                        <>{i.issues}</>
+                      )}
+                    </td>
+                    <td>
+                      {edit && editId === i.id ? (
+                        <input
+                          type="text"
+                          name="title"
+                          defaultValue={issueDescriptionChange}
+                          onChange={(e) =>
+                            setIssueDescriptionChange(e.target.value)
+                          }
+                        />
+                      ) : (
+                        <>{i.issue_description}</>
+                      )}
+                    </td>
                     <td>{assignedUserFilter().username}</td>
+                    <td>
+                      {edit && editId === i.id ? (
+                        <Button
+                          variant="link"
+                          className="close"
+                          onClick={() => sendEdit(i.id)}
+                          id="done"
+                        >
+                          <Check />
+                        </Button>
+                      ) : edit && editId !== i.id ? (
+                        <Button
+                          variant="link"
+                          className="close"
+                          id="pencil"
+                          disabled
+                          onClick={() => handleEdit(i.id)}
+                        >
+                          <Pencil />
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="link"
+                          className="close"
+                          id="pencil"
+                          onClick={() => handleEdit(i.id)}
+                        >
+                          <Pencil />
+                        </Button>
+                      )}
+                    </td>
+                    <td>
+                      {edit && editId === i.id ? (
+                        <CloseButton onClick={() => handleEdit(i.id)} />
+                      ) : edit && editId !== i.id ? (
+                        <CloseButton
+                          disabled
+                          onClick={() => props.handleDelete(i.id)}
+                        />
+                      ) : (
+                        <CloseButton onClick={() => props.handleDelete(i.id)} />
+                      )}
+                    </td>
                   </tr>
                 );
               })}
@@ -123,4 +277,37 @@ export const Dashboard = (props) => {
   );
 };
 
-export default Dashboard;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleDelete: (id) => {
+      dispatch(deleteCustomer(id)).then(() => {
+        window.location.reload();
+      });
+    },
+    sendEdited: (
+      key,
+      name,
+      email,
+      phonenumber,
+      issue_status,
+      issue,
+      issuedescription
+    ) => {
+      dispatch(
+        editCustomer(
+          key,
+          name,
+          email,
+          phonenumber,
+          issue_status,
+          issue,
+          issuedescription
+        )
+      ).then(() => {
+        window.location.reload();
+      });
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Dashboard);

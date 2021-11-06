@@ -6,6 +6,7 @@ import { Jumbotron, Container, Form, Button, Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import UserService from "../services/user-service";
+
 import { resetPassword } from "../actions/auth";
 
 export const Profile = (props) => {

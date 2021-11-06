@@ -9,7 +9,8 @@ class CustomersController < ApplicationController
   end
 
   def new_customer
-    @customer = Customer.new(name: params[:name], email: params[:email], phonenumber: params[:phonenumber], issues: [params[:issues]], issue_description: params[:issuedescription], assignedusersid: [current_user.id])
+    @customer = Customer.new(name: params[:name], email: params[:email], phonenumber: params[:phonenumber], issues: [params[:issues]], issue_description: params[:issue_description], assignedusersid: [current_user.id])
+    @customer.issue_description = "//" if params[:issue_description].blank?
 
     if @customer.save
       @user = User.find(current_user.id)
@@ -43,6 +44,6 @@ class CustomersController < ApplicationController
   private
 
   def customer_params
-    params.permit(:id, :name, :email, :phonenumber, :issues, :issue_status).merge(assignedusersid: @customer.assignedusersid.push(current_user.id))
+    params.permit(:id, :name, :email, :phonenumber, :issue_status, :issues, :issue_description).merge(assignedusersid: @customer.assignedusersid.push(current_user.id))
   end
 end

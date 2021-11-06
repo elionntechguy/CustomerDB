@@ -6,6 +6,8 @@ export const LOGOUT = "LOGOUT";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 
 export const NEW_CUSTOMER = "NEW_CUSTOMER";
+export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+export const EDIT_CUSTOMER = "EDIT_CUSTOMER";
 
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";

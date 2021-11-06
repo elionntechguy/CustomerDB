@@ -30,6 +30,23 @@
   background-color: lightseagreen;
 }
 
+#issueChangeSelect > option:after {
+  padding: 5px;
+  border-radius: 0.25rem;
+}
+
+#issueChangeSelect > option.opened:after {
+  background-color: orange;
+}
+
+#issueChangeSelect > option.inprogress:after {
+  background-color: plum;
+}
+
+#issueChangeSelect > option.closed:after {
+  background-color: lightseagreen;
+}
+
 @media all and (max-width: 767px) {
   .newcustomerbutton {
     float: none !important;
