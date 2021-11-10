@@ -31,7 +31,6 @@ export const Dashboard = (props) => {
   useEffect(() => {
     CustomerService.dashboard().then(
       (res) => {
-        console.log(res);
         setContent(res.customers);
         setAssigneduser(res.assigneduser);
       },
@@ -44,7 +43,6 @@ export const Dashboard = (props) => {
   const { history } = props;
 
   const handleEdit = (key) => {
-    console.log(content.find((zv) => zv.id == key));
     let i = content.find((zv) => zv.id == key);
     setNameChange(i.name);
     setEmailChange(i.email);
