@@ -6,39 +6,37 @@ import {
   LOGOUT,
   RESET_PASSWORD,
   SET_MESSAGE,
-} from "./types";
+} from './types';
 
-import AuthService from "../services/auth-service";
+import AuthService from '../services/auth-service';
 
 /**
- * Register action that dispatches REGISTER_SUCCESS 
+ * Register action that dispatches REGISTER_SUCCESS
  * if successfully registered
- * 
+ *
  * @param {string} username User name
  * @param {string} email User email
  * @param {string} password User password
- * @param {string} password_confirmation Confirm user password
- * @returns 
+ * @param {string} passwordConfirmation Confirm user password
+ * @returns
  */
 export const register =
-  (username, email, password, password_confirmation) => (dispatch) => {
+  (username, email, password, passwordConfirmation) => (dispatch) => {
     return AuthService.register(
       username,
       email,
       password,
-      password_confirmation
+      passwordConfirmation
     ).then(
       (response) => {
         dispatch({
           type: REGISTER_SUCCESS,
         });
 
-        dispatch({
+        return dispatch({
           type: SET_MESSAGE,
           payload: response.data.message,
         });
-
-        return Promise.resolve();
       },
       (error) => {
         const message = error.message;
@@ -52,7 +50,7 @@ export const register =
           payload: message,
         });
 
-        return Promise.reject();
+        throw new Error(error);
       }
     );
   };
@@ -60,20 +58,18 @@ export const register =
 /**
  * Login action that dispatches LOGIN_SUCCESS
  * if logged in successfully
- * 
+ *
  * @param {string} email User email
  * @param {string} password User password
- * @returns 
+ * @returns
  */
 export const login = (email, password) => async (dispatch) => {
   const data = await AuthService.login(email, password);
-  if ("token" in data) {
-    dispatch({
+  if ('token' in data) {
+    return dispatch({
       type: LOGIN_SUCCESS,
       payload: { user: data },
     });
-
-    return Promise.resolve();
   } else {
     const message = data;
 
@@ -86,19 +82,19 @@ export const login = (email, password) => async (dispatch) => {
       payload: message,
     });
 
-    return Promise.reject();
+    throw new Error(message);
   }
 };
 
 /**
  * Logout action that dispatches LOGOUT
- * 
- * @returns 
+ *
+ * @returns
  */
 export const logout = () => (dispatch) => {
   AuthService.logout();
 
-  dispatch({
+  return dispatch({
     type: LOGOUT,
   });
 };
@@ -106,24 +102,23 @@ export const logout = () => (dispatch) => {
 /**
  * resetPassword action that dispatches RESET_PASSWORD
  * if new password not the same as current password
- * 
+ *
  * @param {string} password User password
- * @returns 
+ * @returns
  */
 export const resetPassword = (password) => async (dispatch) => {
   const data = await AuthService.resetPassword(password);
-  if (data.message == "Password successfully changed!") {
+  if (data.message == 'Password successfully changed!') {
     dispatch({
       type: RESET_PASSWORD,
       payload: data,
     });
-    localStorage.removeItem("user");
-    return Promise.resolve();
+    return localStorage.removeItem('user');
   } else {
     dispatch({
       type: SET_MESSAGE,
       payload: data,
     });
-    return Promise.reject();
+    throw new Error(data);
   }
 };

@@ -3,9 +3,9 @@ import {
   DELETE_CUSTOMER,
   EDIT_CUSTOMER,
   SET_MESSAGE,
-} from "./types";
+} from './types';
 
-import CustomerService from "../services/customer-service";
+import CustomerService from '../services/customer-service';
 
 /**
  * newCustomer action that dispatches NEW_CUSTOMER
@@ -13,93 +13,90 @@ import CustomerService from "../services/customer-service";
  *
  * @param {string} name Customer name
  * @param {string} email Customer email
- * @param {string} phonenumber Customer phone number
+ * @param {string} phoneNumber Customer phone number
  * @param {string} issues Customer issue
- * @param {string} issuedescription Customer issue description
+ * @param {string} issueDescription Customer issue description
  * @returns
  */
 export const newCustomer =
-  (name, email, phonenumber, issues, issuedescription) => async (dispatch) => {
+  (name, email, phoneNumber, issues, issueDescription) => async (dispatch) => {
     const data = await CustomerService.newCustomer(
       name,
       email,
-      phonenumber,
+      phoneNumber,
       issues,
-      issuedescription
+      issueDescription
     );
     if (data.message) {
-      dispatch({
+      return dispatch({
         type: NEW_CUSTOMER,
         payload: data,
       });
-      return Promise.resolve();
     } else {
       dispatch({
         type: SET_MESSAGE,
         payload: data,
       });
-      return Promise.reject();
+      throw new Error(data);
     }
   };
 
 /**
  * deleteCustomer action that dispatches DELETE_CUSTOMER
- * 
+ *
  * @param {number} id Customer id
  * @returns
  */
 export const deleteCustomer = (id) => async (dispatch) => {
   const data = await CustomerService.deleteCustomer(id);
   if (data.message) {
-    dispatch({
+    return dispatch({
       type: DELETE_CUSTOMER,
       payload: data,
     });
-    return Promise.resolve();
   } else {
     dispatch({
       type: SET_MESSAGE,
       payload: data,
     });
-    return Promise.reject();
+    throw new Error(data);
   }
 };
 
 /**
  * editCustomer action that dispatches EDIT_CUSTOMER
- * 
+ *
  * @param {number} id Customer id
  * @param {string} name Customer name
  * @param {string} email Customer email
- * @param {string} phonenumber Customer phonenumber
- * @param {string} issue_status Customer issue status
+ * @param {string} phoneNumber Customer phonenumber
+ * @param {string} issueStatus Customer issue status
  * @param {string} issues Customer issue
- * @param {string} issuedescription Customer issue description
- * @returns 
+ * @param {string} issueDescription Customer issue description
+ * @returns
  */
 export const editCustomer =
-  (id, name, email, phonenumber, issue_status, issues, issuedescription) =>
+  (id, name, email, phoneNumber, issueStatus, issues, issueDescription) =>
   async (dispatch) => {
     const data = await CustomerService.editCustomer(
       id,
       name,
       email,
-      phonenumber,
-      issue_status,
+      phoneNumber,
+      issueStatus,
       issues,
-      issuedescription
+      issueDescription
     );
     if (data.message) {
-      dispatch({
+      return dispatch({
         type: EDIT_CUSTOMER,
         payload: data,
       });
-      return Promise.resolve();
     } else {
       dispatch({
         type: SET_MESSAGE,
         payload: data,
       });
-      return Promise.reject();
+      throw new Error(data);
     }
   };

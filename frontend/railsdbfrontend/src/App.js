@@ -1,14 +1,14 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 
-import LogIn from "./components/login";
-import { logout } from "./actions/auth";
-import Profile from "./components/profile";
-import Dashboard from "./components/dashboard";
-import NewCustomer from "./components/new-customer";
+import LogIn from './components/login';
+import { logout } from './actions/auth';
+import Profile from './components/profile';
+import Dashboard from './components/dashboard';
+import NewCustomer from './components/new-customer';
 
-import { history } from "./helpers/history";
+import { history } from './helpers/history';
 
 function App(props) {
   // eslint-disable-next-line react/prop-types
@@ -22,7 +22,7 @@ function App(props) {
     <Router history={history}>
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <Link to={"/"} className="navbar-brand">
+          <Link to={'/'} className="navbar-brand">
             Customer Database
           </Link>
           <button
@@ -40,12 +40,12 @@ function App(props) {
             {user && (
               <div className="navbar-nav">
                 <li className="nav-item">
-                  <Link to={"/dashboard"} className="nav-link">
+                  <Link to={'/dashboard'} className="nav-link">
                     Dashboard
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to={"/profile"} className="nav-link">
+                  <Link to={'/profile'} className="nav-link">
                     Profile
                   </Link>
                 </li>

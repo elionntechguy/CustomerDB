@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-import axios from "axios";
-import authHeader from "./auth-header";
+import axios from 'axios';
+import authHeader from './auth-header';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -8,36 +8,36 @@ class CustomerService {
   /**
    * dashboard method
    * that returns dashboard data
-   * 
-   * @returns 
+   *
+   * @returns
    */
   async dashboard() {
-    const response = await axios.get(API_URL + "dashboard", {
+    const response = await axios.get(API_URL + 'dashboard', {
       headers: authHeader(),
     });
     return response.data;
   }
 
   /**
-   * newCustomer method 
+   * newCustomer method
    * that posts name, email, phonenumber, issues, issuedescription
-   * 
+   *
    * @param {string} name Customer name
    * @param {string} email Customer email
-   * @param {string} phonenumber Customer phone number
+   * @param {string} phoneNumber Customer phone number
    * @param {string} issues Customer issues
-   * @param {string} issuedescription Customer issue description
-   * @returns 
+   * @param {string} issueDescription Customer issue description
+   * @returns
    */
-  async newCustomer(name, email, phonenumber, issues, issuedescription) {
+  async newCustomer(name, email, phoneNumber, issues, issueDescription) {
     const response = await axios.post(
-      API_URL + "new_customer",
+      API_URL + 'new_customer',
       {
         name,
         email,
-        phonenumber,
+        phoneNumber,
         issues,
-        issuedescription,
+        issueDescription,
       },
       { headers: authHeader() }
     );
@@ -47,9 +47,9 @@ class CustomerService {
   /**
    * deleteCustomer method
    * that posts id
-   * 
+   *
    * @param {number} id Customer id
-   * @returns 
+   * @returns
    */
   async deleteCustomer(id) {
     const response = await axios.post(API_URL + `delete_customer/${id}`, {
@@ -61,34 +61,34 @@ class CustomerService {
   /**
    * editCustomer method
    * that posts id, name, email, phonenumber, issue_status, issues, issuedescription
-   * 
+   *
    * @param {number} id Customer id
    * @param {string} name Customer name
    * @param {string} email Customer email
-   * @param {string} phonenumber Customer phone number
-   * @param {string} issue_status Customer issue status
+   * @param {string} phoneNumber Customer phone number
+   * @param {string} issueStatus Customer issue status
    * @param {string} issues Customer issues
-   * @param {string} issuedescription Customer issue description
-   * @returns 
+   * @param {string} issueDescription Customer issue description
+   * @returns
    */
   async editCustomer(
     id,
     name,
     email,
-    phonenumber,
-    issue_status,
+    phoneNumber,
+    issueStatus,
     issues,
-    issuedescription
+    issueDescription
   ) {
     const response = await axios.post(
       API_URL + `update_customer/${id}`,
       {
         name,
         email,
-        phonenumber,
-        issue_status,
+        phoneNumber,
+        issueStatus,
         issues,
-        issuedescription,
+        issueDescription,
       },
       { headers: authHeader() }
     );

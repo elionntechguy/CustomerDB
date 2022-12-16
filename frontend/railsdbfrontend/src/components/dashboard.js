@@ -1,38 +1,38 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { Table, Row, Col, Button, CloseButton } from "react-bootstrap";
-import { Pencil, Check } from "react-bootstrap-icons";
+import { Table, Row, Col, Button, CloseButton } from 'react-bootstrap';
+import { Pencil, Check } from 'react-bootstrap-icons';
 
-import CustomerService from "../services/customer-service";
+import CustomerService from '../services/customer-service';
 
-import "../App.css";
+import '../App.css';
 
-import { deleteCustomer } from "../actions/customer";
-import { editCustomer } from "../actions/customer";
+import { deleteCustomer } from '../actions/customer';
+import { editCustomer } from '../actions/customer';
 
 export const Dashboard = (props) => {
   const [content, setContent] = useState([]);
-  const [assigneduser, setAssigneduser] = useState([]);
+  const [assignedUser, setAssignedUser] = useState([]);
 
   const [edit, setEdit] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  const [nameChange, setNameChange] = useState("");
-  const [emailChange, setEmailChange] = useState("");
-  const [phoneNumberChange, setPhoneNumberChange] = useState("");
-  const [issueStatusChange, setIssueStatusChange] = useState("");
-  const [issueChange, setIssueChange] = useState("");
-  const [issueDescriptionChange, setIssueDescriptionChange] = useState("");
+  const [nameChange, setNameChange] = useState('');
+  const [emailChange, setEmailChange] = useState('');
+  const [phoneNumberChange, setPhoneNumberChange] = useState('');
+  const [issueStatusChange, setIssueStatusChange] = useState('');
+  const [issueChange, setIssueChange] = useState('');
+  const [issueDescriptionChange, setIssueDescriptionChange] = useState('');
 
   useEffect(() => {
     CustomerService.dashboard().then(
       (res) => {
         setContent(res.customers);
-        setAssigneduser(res.assigneduser);
+        setAssignedUser(res.assigneduser);
       },
       (err) => {
         setContent(err.message);
@@ -46,10 +46,10 @@ export const Dashboard = (props) => {
     let i = content.find((zv) => zv.id == key);
     setNameChange(i.name);
     setEmailChange(i.email);
-    setPhoneNumberChange(i.phonenumber);
-    setIssueStatusChange(i.issue_status);
+    setPhoneNumberChange(i.phoneNumber);
+    setIssueStatusChange(i.issueStatus);
     setIssueChange(i.issues);
-    setIssueDescriptionChange(i.issue_description);
+    setIssueDescriptionChange(i.issueDescription);
     setEdit(!edit);
     setEditId(key);
   };
@@ -76,7 +76,7 @@ export const Dashboard = (props) => {
           <Col md={6}>
             <Button
               className="newcustomerbutton"
-              onClick={() => history.push("/new_customer")}
+              onClick={() => history.push('/new_customer')}
               variant="success"
             >
               New Customer
@@ -93,7 +93,7 @@ export const Dashboard = (props) => {
         </div>
       ) : (
         <Row>
-          <Col sm={12} style={{ overflowX: "hidden" }}>
+          <Col sm={12} style={{ overflowX: 'hidden' }}>
             <div className="table-responsive">
               <Table striped bordered hover>
                 <thead>
@@ -114,7 +114,7 @@ export const Dashboard = (props) => {
                   {content.map((i) => {
                     const assignedUserFilter = () => {
                       return (
-                        assigneduser.find((z) => {
+                        assignedUser.find((z) => {
                           return (
                             z.customers_id.filter((zv) => zv == i.id).length > 0
                           );
@@ -178,11 +178,11 @@ export const Dashboard = (props) => {
                             </select>
                           ) : (
                             <>
-                              {i.issue_status === "Opened" ? (
+                              {i.issue_status === 'Opened' ? (
                                 <span className="issue_status opened">
                                   {i.issue_status}
                                 </span>
-                              ) : i.issue_status === "In Progress" ? (
+                              ) : i.issue_status === 'In Progress' ? (
                                 <span className="issue_status inprogress">
                                   {i.issue_status}
                                 </span>
@@ -290,20 +290,20 @@ const mapDispatchToProps = (dispatch) => {
       key,
       name,
       email,
-      phonenumber,
-      issue_status,
+      phoneNumber,
+      issueStatus,
       issue,
-      issuedescription
+      issueDescription
     ) => {
       dispatch(
         editCustomer(
           key,
           name,
           email,
-          phonenumber,
-          issue_status,
+          phoneNumber,
+          issueStatus,
           issue,
-          issuedescription
+          issueDescription
         )
       ).then(() => {
         window.location.reload();

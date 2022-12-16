@@ -1,19 +1,19 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button } from 'react-bootstrap';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import "../App.css";
-import { newCustomer } from "../actions/customer";
+import '../App.css';
+import { newCustomer } from '../actions/customer';
 
 export const NewCustomer = (props) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phonenumber, setPhonenumber] = useState("");
-  const [issues, setIssues] = useState("");
-  const [issuedescription, setIssuedescription] = useState("//");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [issues, setIssues] = useState('');
+  const [issueDescription, setIssueDescription] = useState('//');
 
   const { dispatch, history } = props;
 
@@ -21,14 +21,14 @@ export const NewCustomer = (props) => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
-    const phonenumber = e.target.phonenumber.value;
+    const phoneNumber = e.target.phoneNumber.value;
     const issues = e.target.issues.value;
-    const issuedescription = e.target.issuedescription.value;
+    const issueDescription = e.target.issueDescription.value;
 
     dispatch(
-      newCustomer(name, email, phonenumber, issues, issuedescription)
+      newCustomer(name, email, phoneNumber, issues, issueDescription)
     ).then(() => {
-      history.push("/dashboard");
+      history.push('/dashboard');
       window.location.reload();
     });
   };
@@ -37,7 +37,7 @@ export const NewCustomer = (props) => {
     return (
       name.length > 0 &&
       email.length > 0 &&
-      phonenumber.length > 0 &&
+      phoneNumber.length > 0 &&
       issues.length > 0
     );
   };
@@ -71,8 +71,8 @@ export const NewCustomer = (props) => {
             <Form.Label>Phone Number</Form.Label>
             <Form.Control
               type="text"
-              value={phonenumber}
-              onChange={(e) => setPhonenumber(e.target.value)}
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </Form.Group>
           <Form.Group size="lg" controlId="issues">
@@ -87,12 +87,11 @@ export const NewCustomer = (props) => {
             <Form.Label>Issue Description</Form.Label>
             <Form.Control
               as="textarea"
-              value={issuedescription}
-              onChange={(e) => setIssuedescription(e.target.value)}
+              value={issueDescription}
+              onChange={(e) => setIssueDescription(e.target.value)}
               rows={3}
             />
           </Form.Group>
-
           <Button
             variant="secondary"
             block

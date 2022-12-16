@@ -1,26 +1,26 @@
 /* eslint-disable no-undef */
-import axios from "axios";
-import authHeader from "./auth-header";
+import axios from 'axios';
+import authHeader from './auth-header';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 class AuthService {
   /**
-   * Login method 
+   * Login method
    * that posts email and password
    * and saves JWT to localStorage
-   * 
+   *
    * @param {string} email User email
    * @param {string} password User password
-   * @returns 
+   * @returns
    */
   async login(email, password) {
-    const response = await axios.post(API_URL + "login", {
+    const response = await axios.post(API_URL + 'login', {
       email,
       password,
     });
     if (response.data.token) {
-      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem('user', JSON.stringify(response.data));
     }
     return response.data;
   }
@@ -29,38 +29,38 @@ class AuthService {
    * Logout method
    */
   logout() {
-    localStorage.removeItem("user");
+    return localStorage.removeItem('user');
   }
 
   /**
    * Register method
    * that posts username, email, password, password_confirmation
-   * 
+   *
    * @param {string} username User name
    * @param {string} email User email
    * @param {string} password User password
-   * @param {string} password_confirmation Confirm user password
-   * @returns 
+   * @param {string} passwordConfirmation Confirm user password
+   * @returns
    */
-  register(username, email, password, password_confirmation) {
-    return axios.post(API_URL + "signup", {
+  register(username, email, password, passwordConfirmation) {
+    return axios.post(API_URL + 'signup', {
       username,
       email,
       password,
-      password_confirmation,
+      passwordConfirmation,
     });
   }
 
   /**
    * resetPassword method
    * that posts password
-   * 
+   *
    * @param {string} password User password
-   * @returns 
+   * @returns
    */
   async resetPassword(password) {
     const response = await axios.post(
-      API_URL + "reset",
+      API_URL + 'reset',
       {
         password,
       },
